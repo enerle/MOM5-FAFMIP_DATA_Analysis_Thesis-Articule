@@ -29,11 +29,11 @@ set mem/size=9999
 !!----Mask
 use "/home/netapp-clima-users1/rnavarro/ANALYSIS/regionmask_v6.nc" !5
 let one=umask[d=5]/umask[d=5]
-let umask_basin  = if (( umask[d=5] EQ 3 )) then one else one-11 !!PAC
+let umask_basin  = if (( umask[d=5] EQ 5 )) then one else one-11 !!IND
 set variable/bad =-10. umask_basin
 
 let one=tmask[d=5]/tmask[d=5]
-let tmask_basin  = if (( tmask[d=5] EQ 3 )) then one else one-11 !!PAC
+let tmask_basin  = if (( tmask[d=5] EQ 5 )) then one else one-11 !!IND
 set variable/bad =-10. tmask_basin
 
 let taux = tau_x[d=1]*umask_basin
@@ -83,17 +83,20 @@ let trans_dx_tempgrad_dy_IDD_south    = trans_dx_tempgrad_dy[j=1:200]*IDD_south[
 let cumsum_trans_dx_tempgrad_dy_south = trans_dx_tempgrad_dy_IDD_south[y=10s:32s@rsum]
 let estc_south                        = ABS(cp*cumsum_trans_dx_tempgrad_dy_south)*1.e-15 !!
 
+!!let estc_total                        = ABS(cp*(cumsum_trans_dx_tempgrad_dy_north-cumsum_trans_dx_tempgrad_dy_south))*1.e-15
+
 let ekman_trans = (trans_dx/rho)*1.e-6 !m3/s
 
-save/file=STC_trans_energy_${EXP}_PAC.nc/clobber trans_dx,ekman_trans
-save/file=STC_trans_energy_${EXP}_PAC.nc/append  dx[i=@sum],dy[i=@ave]
-save/file=STC_trans_energy_${EXP}_PAC.nc/append  tempgrad[i=@ave]
-save/file=STC_trans_energy_${EXP}_PAC.nc/append  taux[i=@ave],temp[i=@ave]
-save/file=STC_trans_energy_${EXP}_PAC.nc/append  estc_north,estc_south
+save/file=STC_trans_energy_${EXP}_IND.nc/clobber trans_dx,ekman_trans
+save/file=STC_trans_energy_${EXP}_IND.nc/append  dx[i=@sum],dy[i=@ave]
+save/file=STC_trans_energy_${EXP}_IND.nc/append  tempgrad[i=@ave]
+save/file=STC_trans_energy_${EXP}_IND.nc/append  taux[i=@ave],temp[i=@ave]
+save/file=STC_trans_energy_${EXP}_IND.nc/append  estc_north,estc_south
+!!save/file=STC_trans_energy_${EXP}_IND.nc/append  estc_total
 
 exit
 !
 
 /bin/rm -f ferret.jnl*
 @ i = $i + 1
-endns_dx             = trans[i=@ave,j=1:200]*dx[i=@sum,j=1:200]   !!kg/s
+end

@@ -13,7 +13,7 @@ datadir  = '/home/clima-archive2/rfarneti/RENE/DATA'
 dirout   = '/home/netapp-clima-users1/rnavarro/ANALYSIS/BLAKER/Figures'
 
 exp       = ["Stress","Water","Heat","All","control"]
-filename1 = ["STC_trans_energy_FAFSTRESS_PAC.nc","STC_trans_energy_FAFWATER_PAC.nc","STC_trans_energy_FAFHEAT_PAC.nc","STC_trans_energy_FAFALL_PAC.nc","STC_trans_energy_flux-only_PAC.nc"]
+filename1 = ["STC_trans_energy_FAFSTRESS_GLB.nc","STC_trans_energy_FAFWATER_GLB.nc","STC_trans_energy_FAFHEAT_GLB.nc","STC_trans_energy_FAFALL_GLB.nc","STC_trans_energy_flux-only_GLB.nc"]
 
 lat       = [None]*len(exp)
 lat30n    = [None]*len(exp)
@@ -51,7 +51,7 @@ for i in range(len(exp)):
     lat[i]   = file.variables['YT_OCEAN'][:]
     lat30n[i]= file.variables['YU_OCEAN116_142'][:]
     lat30s[i]= file.variables['YU_OCEAN50_76'][:]
-    latdx[i] = file.variables['GRIDLAT_T'][:]
+    #latdx[i] = file.variables['GRIDLAT_T'][:]
     dx[i]    = file.variables['DX'][:]
     dy[i]    = file.variables['DY'][:]
     mek[i]   = (np.squeeze(file.variables['EKMAN_TRANS'][:])) 
@@ -118,8 +118,8 @@ plt.axhline(y=0.0,color='k',linestyle='--',linewidth=2) #includes zero line
 plt.yticks(fontsize=16); plt.xticks(fontsize=16)
 ###
 
-#plt.show()
-#plt.savefig('./Figures/ESTC_change_PAC.png',transparent = True, bbox_inches='tight',dpi=600)
+#plt.show()<
+plt.savefig('./Figures/ESTC_change_GLB.png',transparent = True, bbox_inches='tight',dpi=600)
 
 fig = plt.figure(2)
 ax = fig.add_subplot(2,1,1)
@@ -164,7 +164,7 @@ plt.yticks(fontsize=16); plt.xticks(fontsize=16)
 ###
 
 #plt.show()
-#plt.savefig('./Figures/ESTC_change-ekmantransport_PAC.png',transparent = True, bbox_inches='tight',dpi=600)
+plt.savefig('./Figures/ESTC_change-ekmantransport_GLB.png',transparent = True, bbox_inches='tight',dpi=600)
 
 rc('figure', figsize=(9,11))
 fig = plt.figure(3)
@@ -196,7 +196,7 @@ ax1.tick_params(axis='x',labelcolor='black',labelsize=16)
 plt.xticks(fontsize=16)
 
 #plt.show()
-#plt.savefig('./Figures/ESTC_change_taux_sst_PAC.png',transparent = True, bbox_inches='tight',dpi=600)
+plt.savefig('./Figures/ESTC_change_taux_sst_GLB.png',transparent = True, bbox_inches='tight',dpi=600)
 
 rc('figure', figsize=(9,11))
 fig = plt.figure(4)
@@ -210,7 +210,6 @@ ax1.tick_params(axis='y',labelcolor='black',labelsize=16)
 #ax1.set_yticks([-4,-2,0,2,4]); ax1.set_yticklabels([-4,-2,0,2,4])
 ax1.axis([-40,40,-80,80])
 
-ax2.set_ylabel("[$^oC$]",color='red',fontsize=16)
 ax2.tick_params(axis='y',labelcolor='red',labelsize=16)
 #ax2.set_yticks([-4,-2,0,2,4]); ax2.set_yticklabels([-4,-2,0,2,4])
 ax2.axis([-40,40,10,30])
@@ -227,45 +226,45 @@ ax1.tick_params(axis='x',labelcolor='black',labelsize=16)
 plt.xticks(fontsize=16)
 
 #plt.show()
-#plt.savefig('./Figures/ESTC_taux_sst_control_PAC.png',transparent = True, bbox_inches='tight',dpi=600)
+plt.savefig('./Figures/ESTC_taux_sst_control_GLB.png',transparent = True, bbox_inches='tight',dpi=600)
 
 ######
 ######
 
-fig = plt.figure(5)
-ax = fig.add_subplot(1,2,1)
-ax.plot(dx[-1]*1e-7,latdx[-1],color='black',linestyle='solid',linewidth=2.0)
+#fig = plt.figure(5)
+#ax = fig.add_subplot(1,2,1)
+#ax.plot(dx[-1]*1e-7,latdx[-1],color='black',linestyle='solid',linewidth=2.0)
 
 ###
-ax.spines['top'].set_linewidth(2);  ax.spines['bottom'].set_linewidth(2)
-ax.spines['left'].set_linewidth(2); ax.spines['right'].set_linewidth(2)
-ax.xaxis.set_tick_params(width=2);  ax.yaxis.set_tick_params(width=2)
+#ax.spines['top'].set_linewidth(2);  ax.spines['bottom'].set_linewidth(2)
+#ax.spines['left'].set_linewidth(2); ax.spines['right'].set_linewidth(2)
+#ax.xaxis.set_tick_params(width=2);  ax.yaxis.set_tick_params(width=2)
 
-plt.yticks([-40,-20,0,20,40,60],['40S','20S',0,'20N','40N','60N'])
+#plt.yticks([-40,-20,0,20,40,60],['40S','20S',0,'20N','40N','60N'])
 
-plt.title("Pacific Ocean basin width",fontsize=16)
-ax.set_ylabel("Latitude",fontsize=16); ax.set_xlabel("[$10^7$ m]",fontsize=16)
-ax.axis([0,2,-40,60])
+#plt.title("Pacific Ocean basin width",fontsize=16)
+#ax.set_ylabel("Latitude",fontsize=16); ax.set_xlabel("[$10^7$ m]",fontsize=16)
+#ax.axis([0,2,-40,60])
 
-plt.axhline(y=0.0,color='k',linestyle='--',linewidth=2) #includes zero line
-plt.yticks(fontsize=16); plt.xticks(fontsize=16)
+#plt.axhline(y=0.0,color='k',linestyle='--',linewidth=2) #includes zero line
+#plt.yticks(fontsize=16); plt.xticks(fontsize=16)
 
 
-ax = fig.add_subplot(1,2,2)
-ax.plot(dy[-1]*1e-5,latdx[-1],color='black',linestyle='solid',linewidth=2.0)
+#ax = fig.add_subplot(1,2,2)
+#ax.plot(dy[-1]*1e-5,latdx[-1],color='black',linestyle='solid',linewidth=2.0)
 
 ###
-ax.spines['top'].set_linewidth(2);  ax.spines['bottom'].set_linewidth(2)
-ax.spines['left'].set_linewidth(2); ax.spines['right'].set_linewidth(2)
-ax.xaxis.set_tick_params(width=2);  ax.yaxis.set_tick_params(width=2)
+#ax.spines['top'].set_linewidth(2);  ax.spines['bottom'].set_linewidth(2)
+#ax.spines['left'].set_linewidth(2); ax.spines['right'].set_linewidth(2)
+#ax.xaxis.set_tick_params(width=2);  ax.yaxis.set_tick_params(width=2)
 
-plt.yticks([-40,-20,0,20,40,60],[])
-plt.title("Latitudinal grid width",fontsize=16)
-ax.set_xlabel("[$10^5$ m]",fontsize=16)
-ax.axis([.2,1.2,-40,60])
+#plt.yticks([-40,-20,0,20,40,60],[])
+#plt.title("Latitudinal grid width",fontsize=16)
+#ax.set_xlabel("[$10^5$ m]",fontsize=16)
+#ax.axis([.2,1.2,-40,60])
 
-plt.axhline(y=0.0,color='k',linestyle='--',linewidth=2) #includes zero line
-plt.yticks(fontsize=16); plt.xticks(fontsize=16)
+#plt.axhline(y=0.0,color='k',linestyle='--',linewidth=2) #includes zero line
+#plt.yticks(fontsize=16); plt.xticks(fontsize=16)
 
 #plt.show()
 #plt.savefig('./Figures/ESTC_dx_and_dy_width_PAC.png',transparent = True, bbox_inches='tight',dpi=600)
@@ -315,7 +314,7 @@ plt.yticks(fontsize=16); plt.xticks(fontsize=16)
 ###
 
 #plt.show()
-#plt.savefig('./Figures/ESTC_temp-gradient_PAC.png',transparent = True, bbox_inches='tight',dpi=600)
+plt.savefig('./Figures/ESTC_temp-gradient_GLB.png',transparent = True, bbox_inches='tight',dpi=600)
 
 fig = plt.figure(7)
 ax = fig.add_subplot(2,1,1)
@@ -358,7 +357,7 @@ plt.yticks(fontsize=16); plt.xticks(fontsize=16)
 ###
 
 #plt.show()
-#plt.savefig('./Figures/ESTC_temp-zonal_PAC.png',transparent = True, bbox_inches='tight',dpi=600)
+plt.savefig('./Figures/ESTC_temp-zonal_GLB.png',transparent = True, bbox_inches='tight',dpi=600)
 
 fig = plt.figure(8)
 ax = fig.add_subplot(2,1,1)
@@ -400,6 +399,6 @@ plt.axhline(y=0.0,color='k',linestyle='--',linewidth=2) #includes zero line
 plt.yticks(fontsize=16); plt.xticks(fontsize=16)
 ###
 
-plt.show()
-#plt.savefig('./Figures/ESTC_taux-zonal_PAC.png',transparent = True, bbox_inches='tight',dpi=600)
+#plt.show()
+plt.savefig('./Figures/ESTC_taux-zonal_GLB.png',transparent = True, bbox_inches='tight',dpi=600)
 

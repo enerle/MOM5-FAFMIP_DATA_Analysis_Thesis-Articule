@@ -26,18 +26,8 @@ use area_t_$EXP.nc  !4
 set region/y=90S:90N/z=0:5000
 set mem/size=9999
 
-!!----Mask
-use "/home/netapp-clima-users1/rnavarro/ANALYSIS/regionmask_v6.nc" !5
-let one=umask[d=5]/umask[d=5]
-let umask_basin  = if (( umask[d=5] EQ 3 )) then one else one-11 !!PAC
-set variable/bad =-10. umask_basin
-
-let one=tmask[d=5]/tmask[d=5]
-let tmask_basin  = if (( tmask[d=5] EQ 3 )) then one else one-11 !!PAC
-set variable/bad =-10. tmask_basin
-
-let taux = tau_x[d=1]*umask_basin
-let temp = sst[d=2]*tmask_basin
+let taux = tau_x[d=1]
+let temp = sst[d=2]
 
 let pi    = 4.0*atan(1.0)
 let rad   = pi/180.
@@ -50,13 +40,11 @@ let Ry    = R*cos(y[gy=taux]*rad)
 
 let dlon           = geolon_t[i=1:360,j=1:200,d=4]
 let dlon_diff      = dlon[x=@SHF:1] - dlon
-let dlon_diff_mask = dlon_diff*tmask_basin
-let dx             = dlon_diff_mask*rad*Ry
+let dx             = dlon_diff*rad*Ry
 
 let dlat           = geolat_t[i=1:360,j=1:200,d=4]
 let dlat_diff      = dlat[y=@SHF:1] - dlat
-let dlat_diff_mask = dlat_diff*tmask_basin
-let dy             = dlat_diff_mask*rad*R
+let dy             = dlat_diff*rad*R
 
 !--find lat for the integral limit
 let tauxminID_north    = if(taux[x=@ave,y=25n:32n,l=@ave] GT 0.) then 0 else 1
@@ -85,15 +73,15 @@ let estc_south                        = ABS(cp*cumsum_trans_dx_tempgrad_dy_south
 
 let ekman_trans = (trans_dx/rho)*1.e-6 !m3/s
 
-save/file=STC_trans_energy_${EXP}_PAC.nc/clobber trans_dx,ekman_trans
-save/file=STC_trans_energy_${EXP}_PAC.nc/append  dx[i=@sum],dy[i=@ave]
-save/file=STC_trans_energy_${EXP}_PAC.nc/append  tempgrad[i=@ave]
-save/file=STC_trans_energy_${EXP}_PAC.nc/append  taux[i=@ave],temp[i=@ave]
-save/file=STC_trans_energy_${EXP}_PAC.nc/append  estc_north,estc_south
+save/file=STC_trans_energy_${EXP}_GLB.nc/clobber trans_dx,ekman_trans
+save/file=STC_trans_energy_${EXP}_GLB.nc/append  dx[i=@sum],dy[i=@ave]
+save/file=STC_trans_energy_${EXP}_GLB.nc/append  tempgrad[i=@ave]
+save/file=STC_trans_energy_${EXP}_GLB.nc/append  taux[i=@ave],temp[i=@ave]
+save/file=STC_trans_energy_${EXP}_GLB.nc/append  estc_north,estc_south
 
 exit
 !
 
 /bin/rm -f ferret.jnl*
 @ i = $i + 1
-endns_dx             = trans[i=@ave,j=1:200]*dx[i=@sum,j=1:200]   !!kg/s
+end
